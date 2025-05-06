@@ -1,6 +1,15 @@
-import mongoose from "mongoose";
+import {Schema, model} from "mongoose";
 
-const userModel = new mongoose.Schema(
+interface IUser{
+  username: string;
+  email: string;
+  password: string;
+  googleId?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+const userModel = new Schema<IUser>(
   {
     username: { unique: true, type: String, required: true },
     email: { unique: true, type: String, required: true },
@@ -10,5 +19,5 @@ const userModel = new mongoose.Schema(
   { timestamps: true }
 );
 
-const User = mongoose.model("User", userModel);
+const User = model<IUser>("User", userModel);
 export default User;
