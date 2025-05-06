@@ -1,18 +1,22 @@
 import mongoose, { Schema, model } from "mongoose";
 
+interface ILead {
+  name: string;
+  email: string;
+  company: string;
+}
 interface IList {
   name: string;
-  leadId: Schema.Types.ObjectId[];
+  leads: ILead[];
   user: Schema.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
 
-
 const listModel = new Schema<IList>(
   {
     name: { type: String, required: true },
-    leadId: [{ type: Schema.Types.ObjectId, ref: "Lead" }],
+    leads: [{type:Object}],
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
   { timestamps: true }
@@ -20,5 +24,3 @@ const listModel = new Schema<IList>(
 
 const List = model<IList>("List", listModel);
 export default List;
-
-

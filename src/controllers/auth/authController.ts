@@ -3,6 +3,7 @@ import User from "../../models/userModel";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import CustomError from "../../lib/utils/CustomError";
+import { AuthenticatedRequest } from "../../lib/types/type";
 
 const registerUser = async (req: Request, res: Response,next : NextFunction) => {
   const { username, email, password } = req.body;
@@ -25,7 +26,7 @@ const registerUser = async (req: Request, res: Response,next : NextFunction) => 
   });
 };
 
-const loginUser = async (req: Request, res: Response, next:NextFunction) => {
+const loginUser = async (req: AuthenticatedRequest, res: Response, next:NextFunction) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
@@ -42,6 +43,7 @@ const loginUser = async (req: Request, res: Response, next:NextFunction) => {
       expiresIn: "1d",
     }
   );
+  req.user = user._id.toString();
   res.status(200).json({
     status: "success",
     token,
