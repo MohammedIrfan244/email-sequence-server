@@ -15,7 +15,6 @@ dotenv.config();
 
 connectDB();
 startAgenda()
-console.log("Agenda started")
 
 const app = express();
 
