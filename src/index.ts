@@ -7,9 +7,11 @@ import authRoute from './routes/authRoute';
 import leadRoute from './routes/leadRoute';
 import templateRoute from './routes/tempRoute';
 import globalErrorHandler from './middlewares/globalErrorHandler';
+import { startAgenda } from './configs/agenda';
 
 dotenv.config();
 connectDB();
+startAgenda()
 
 const app = express();
 
