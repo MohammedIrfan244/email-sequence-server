@@ -13,14 +13,11 @@ const agenda = new Agenda({
     });
 
     const startAgenda = async () => {
-        await agenda.start();
-        agenda.on("start", (job) => {
-            console.log(`Job ${job.attrs.name} starting...`);
-        });
-        agenda.on("complete", (job) => {
-            console.log(`Job ${job.attrs.name} finished!`);
+        try {
+            await agenda.start();
+        }catch (error) {
+            console.error("Error starting agenda:", error);
         }
-        )
     }
 
     export {startAgenda}

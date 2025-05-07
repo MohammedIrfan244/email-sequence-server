@@ -3,6 +3,8 @@ import Lead from "../models/leadModel";
 import Template from "../models/templateModel";
 import Flow from "../models/flowModel";
 import { errorLogger } from "../lib/utils/devLogger";
+import { sendEmail } from "../services/emailService";
+import { send } from "process";
 
 
 interface EmailJobData {
@@ -12,7 +14,6 @@ interface EmailJobData {
 }
 
 agenda.define("send email", async (job: { attrs: { data: EmailJobData } }) => {
-    console.log("srarted email job")
     const { leadId, templateId, flowId } = job.attrs.data;
     try{
         const lead = await Lead.findById(leadId)
@@ -30,9 +31,7 @@ agenda.define("send email", async (job: { attrs: { data: EmailJobData } }) => {
             errorLogger("Flow not found:" + flowId);
             return;
         }
-        console.log("Sending email to:", lead.email);
-        console.log("Email subject:", template.subject);
-        console.log("Email body:", template.body);
+        sendEmail(lead.email, lead.name, template.subject, template.body)
     }catch(error){
         console.error("Error sending email:", error);
     }
