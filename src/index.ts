@@ -8,12 +8,14 @@ import leadRoute from './routes/leadRoute';
 import templateRoute from './routes/tempRoute';
 import flowRoute from './routes/flowRoute';
 import globalErrorHandler from './middlewares/globalErrorHandler';
+import './jobs/emailJob'; 
 import { startAgenda } from './configs/agenda';
 
 dotenv.config();
 
 connectDB();
 startAgenda()
+console.log("Agenda started")
 
 const app = express();
 

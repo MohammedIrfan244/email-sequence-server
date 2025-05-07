@@ -12,6 +12,7 @@ interface EmailJobData {
 }
 
 agenda.define("send email", async (job: { attrs: { data: EmailJobData } }) => {
+    console.log("srarted email job")
     const { leadId, templateId, flowId } = job.attrs.data;
     try{
         const lead = await Lead.findById(leadId)
