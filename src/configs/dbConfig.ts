@@ -10,7 +10,6 @@ const connectDB = async () => {
     } else {
       errorLogger(`Error: ${String(error)}`);
     }
-    process.exit(1);
   }
 };
 

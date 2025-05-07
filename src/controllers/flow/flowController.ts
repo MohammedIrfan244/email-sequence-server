@@ -1,6 +1,5 @@
 import Flow from "../../models/flowModel";
 import Lead from "../../models/leadModel";
-import LeadList from "../../models/leadListModel";
 import { Response, NextFunction } from "express";
 import { AuthenticatedRequest } from "../../lib/types/type";
 import { errorLogger } from "../../lib/utils/devLogger";
@@ -52,3 +51,22 @@ const createFlow = async (
   }
     return res.status(201).json({ message: "Flow created successfully" });
 };
+
+
+ const deleteFlow = async (
+  req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+) => {
+    const { id } = req.params;
+    const userId = req.user;
+    const flow = await Flow.findOne({ _id: id, userId });
+    if (!flow) {
+        errorLogger("Flow not found");
+        return next(new CustomError("Flow not found", 404));
+    }
+    await Flow.deleteOne({ _id: id, userId });
+    return res.status(200).json({ message: "Flow deleted successfully" });
+}
+
+export {createFlow , deleteFlow}

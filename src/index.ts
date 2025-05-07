@@ -6,10 +6,12 @@ import { infoLogger } from './lib/utils/devLogger';
 import authRoute from './routes/authRoute';
 import leadRoute from './routes/leadRoute';
 import templateRoute from './routes/tempRoute';
+import flowRoute from './routes/flowRoute';
 import globalErrorHandler from './middlewares/globalErrorHandler';
 import { startAgenda } from './configs/agenda';
 
 dotenv.config();
+
 connectDB();
 startAgenda()
 
@@ -25,6 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoute);
 app.use('/api/lead', leadRoute);
 app.use('/api/template', templateRoute);
+app.use('/api/flow', flowRoute);
 
 
 app.all('/{*any}', (req, res, next) => {

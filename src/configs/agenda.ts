@@ -1,12 +1,11 @@
 import Agenda from "agenda";
-import e from "express";
 
 const agenda = new Agenda({
     db: {
         address: process.env.MONGODB_URI as string,
         collection: "agendaJobs",
     },
-    processEvery: "10 seconds",
+    processEvery: "1 minute",
     });
 
     const startAgenda = async () => {
