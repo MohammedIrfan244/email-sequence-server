@@ -4,7 +4,7 @@ export const tryCatch = <T>(fn: (req: Request, res: Response, next: NextFunction
     return async (req: Request, res: Response, next: NextFunction) => {
         try{
             await fn(req, res, next);
-        }catch (error) {
+        }catch (error : unknown) {
             next(error);
         }
     }

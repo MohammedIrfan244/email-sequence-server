@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import connectDB from './configs/dbConfig';
 import { infoLogger } from './lib/utils/devLogger';
 import authRoute from './routes/authRoute';
+import leadRoute from './routes/leadRoute';
 import globalErrorHandler from './middlewares/globalErrorHandler';
 
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/auth', authRoute);
+app.use('/api/lead', leadRoute);
 
 
 app.all('/{*any}', (req, res, next) => {
