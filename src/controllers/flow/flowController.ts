@@ -5,6 +5,7 @@ import { AuthenticatedRequest } from "../../lib/types/type";
 import { errorLogger } from "../../lib/utils/devLogger";
 import CustomError from "../../lib/utils/CustomError";
 import agenda from "../../configs/agenda";
+import { FlowLeadListPayload } from "../../lib/types/type";
 
 const createFlow = async (
   req: AuthenticatedRequest,
@@ -69,4 +70,41 @@ const createFlow = async (
     return res.status(200).json({ message: "Flow deleted successfully" });
 }
 
-export {createFlow , deleteFlow}
+const getUserFlows = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  const userId = req.user;
+  const flows = await Flow.find({ userId }).populate("leadListId", "name");
+  if (!flows) {
+    errorLogger("No flows found");
+    return next(new CustomError("No flows found", 404));
+  }
+  const formattedFlows = flows.map((flow) => {
+    return {
+      id: flow._id,
+      name: flow.name,
+      source: (flow.leadListId as FlowLeadListPayload).name,
+      createdAt: flow.createdAt,
+    }
+  })
+  return res.status(200).json({ message: "Flows fetched successfully", flows: formattedFlows });
+}
+
+const getFlowById = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.params;
+  const userId = req.user;
+  const flow = await Flow.findOne({ _id: id, userId });
+  if (!flow) {
+    errorLogger("Flow not found");
+    return next(new CustomError("Flow not found", 404));
+  }
+  return res.status(200).json({ message: "Flow fetched successfully", flow });
+}
+
+export {createFlow , deleteFlow , getUserFlows , getFlowById}

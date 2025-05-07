@@ -1,9 +1,10 @@
 import { ObjectId, Schema , model } from "mongoose";
+import { FlowLeadListPayload } from "../lib/types/type";
 
 interface IFlow {
   userId:ObjectId;
   name: string;
-  leadListId: ObjectId;
+  leadListId: ObjectId | FlowLeadListPayload;
   order : [{
     type: "email" | "delay";
     templateId?: ObjectId;
