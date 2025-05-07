@@ -99,7 +99,10 @@ const getFlowById = async (
 ) => {
   const { id } = req.params;
   const userId = req.user;
-  const flow = await Flow.findOne({ _id: id, userId });
+  const flow = await Flow.findOne({ _id: id, userId })
+      .populate({ path: "leadListId", select: "name" })
+      .populate({ path: "order.templateId", select: "name" });
+      
   if (!flow) {
     errorLogger("Flow not found");
     return next(new CustomError("Flow not found", 404));
