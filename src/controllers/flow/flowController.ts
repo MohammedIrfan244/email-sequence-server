@@ -37,7 +37,7 @@ const createFlow = async (
         delay += step.delay || 0;
 
         await agenda.schedule(
-          new Date(Date.now() + delay *1000),
+          new Date(Date.now() + delay*1000*60*60),
           "send email",
           {
             leadId: lead._id,
